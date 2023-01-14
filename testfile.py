@@ -1,4 +1,5 @@
 import csv
+from pprint import pprint
 
 listDict = [
 { 'Software development':0, 'Core':1, 'Finance':2, 'Consultancy':3, 'ML/AI':4 },
@@ -6,8 +7,9 @@ listDict = [
 { 'Research':0, 'Corporate':1, 'Start-up':2, 'MBA':3, 'UPSC':4 },{ 'Hindi':0, 'Malayalam':1, 'Bengali':2, 'Tamil':3, 'Telugu':4 }
 ]
 
-def rowInfo(row):
-    print(row)
+def rowInfo(row,CData):
+    # print(row)
+    data = []
     for i in range(0,len(row)):
         indexList = [] #stores the ticked option value shown in dictionary
         zeroArray = [0]*len(listDict[i])
@@ -39,17 +41,24 @@ def rowInfo(row):
         # converting the 0's in the array to 1's according to the options ticked
         for j in indexList:
             zeroArray[j] = 1
-        print(zeroArray)
+        # print(zeroArray)
+        data.append(zeroArray)
+    CData.append(data)
 
-def loadcsv():
-    with open('Questionnaire.csv') as csv_file:
+def preprocess(csvfile):
+    with open(csvfile) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
-        line_count = 0
+        num = 0
+        CData = []
         for row in csv_reader:
-            if line_count == 0:
-                line_count += 1
-            else:
-                line_count += 1
-                rowInfo(row[1:])
+            if num==0:
+                num += 1
+                continue
+            rowInfo(row[1:],CData)
+        # pprint(CData)
+        return CData
 
-loadcsv()
+if __name__ == "__main__":
+    csvfile = 'Questionnaire.csv'
+    studentCData = preprocess(csvfile)
+    pprint(studentCData)
