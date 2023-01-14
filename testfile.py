@@ -6,29 +6,50 @@ listDict = [
 { 'Research':0, 'Corporate':1, 'Start-up':2, 'MBA':3, 'UPSC':4 },{ 'Hindi':0, 'Malayalam':1, 'Bengali':2, 'Tamil':3, 'Telugu':4 }
 ]
 
-listQ = [[],[],[],[]]
-
 def rowInfo(row):
     print(row)
     for i in range(0,len(row)):
+        indexList = [] #stores the ticked option value shown in dictionary
         zeroArray = [0]*len(listDict[i])
-        index = listDict[i][row[i]]
-        zeroArray[index] = 1
-        listQ[i].append(zeroArray)
-        print(listQ[i])
 
-def loadCsv(): 
+        # If only single option is ticked
+        if ';' not in row[i]:
+            index = listDict[i][row[i]]
+            indexList.append(index)
+        
+        # if multiple options are ticked
+        else:
+            breakpoints = [0]
+            loopNumber = 0
+            # finding number of ';' breakpoints
+            for k in row[i]:
+                if k==';':
+                    breakpoints.append(loopNumber)
+                loopNumber += 1
+            # seperating the string according to the breakpoints
+            for n in range(0,len(breakpoints)):
+                # print (n)
+                if (n==0):
+                    indexList.append(listDict[i][row[i][breakpoints[n]:breakpoints[n+1]]])
+                elif (n<len(breakpoints)-1):
+                    indexList.append(listDict[i][row[i][breakpoints[n]+1:breakpoints[n+1]]])
+                else:
+                    indexList.append(listDict[i][row[i][breakpoints[n]+1:]])
+        
+        # converting the 0's in the array to 1's according to the options ticked
+        for j in indexList:
+            zeroArray[j] = 1
+        print(zeroArray)
+
+def loadcsv():
     with open('Questionnaire.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
             if line_count == 0:
-                # print(f'Column names are {", ".join(row)}')
                 line_count += 1
             else:
-                # print(f'\t{row[0]} works in the {row[1]} department, and was born in {row[2]}.')
-                rowInfo(row[1:])
                 line_count += 1
-        # print(f'Processed {line_count} lines.')
+                rowInfo(row[1:])
 
-loadCsv()
+loadcsv()
