@@ -4,21 +4,22 @@ from pprint import pprint
 
 listDict = [    { 'Software development':0, 'Core':1, 'Finance':2, 'Consultancy':3, 'ML/AI':4 },    { 'Research groups':0, 'Technical societies':1, 'Cells':2, 'Fests':3, 'Cultural societies':4, 'Miscellaneous societies/clubs':5 },    { 'Research':0, 'Corporate':1, 'Start-up':2, 'MBA':3, 'UPSC':4 },{ 'Hindi':0, 'Malayalam':1, 'Bengali':2, 'Tamil':3, 'Telugu':4 }]
 
-def calcList(Dmatrix,k,M,m):
+def calcList(Dmatrix,k,M,m,dum):
     finalList = [[] for _ in range(len(Dmatrix))]
     for x in range(M):
-        for y in range(m):
+        for y in range(m+dum):
             Dmatrix[x][y]=float(Dmatrix[x][y])
     for z in range(k):
         for x in range(M):
             minIndex = Dmatrix[x].index(min(Dmatrix[x]))
-            finalList[x].append([x,minIndex])
+            if minIndex < m:
+                finalList[x].append([x,minIndex])
             for y in range(M):
-                Dmatrix[y][minIndex] = 1
+                Dmatrix[y][minIndex] = 2
     return finalList
 
 
-def calcDmatrix(studentCData, mentorsCData, M, m):
+def calcDmatrix(studentCData, mentorsCData, M, m,dummyDvalue):
     dOuterMatrix=[]
     for x in range(M):
         dInnerMatrix=[] 
@@ -26,6 +27,8 @@ def calcDmatrix(studentCData, mentorsCData, M, m):
             d = calcDvalue(studentCData[y], mentorsCData[x])
             format_float = "{:.3f}".format(d)
             dInnerMatrix.append(format_float)
+        for _ in range(dummyDvalue):
+            dInnerMatrix.append(1.000)
         dOuterMatrix.append(dInnerMatrix)
         # dInnerMatrix.clear()
     return dOuterMatrix
@@ -72,9 +75,9 @@ def preprocess(csvfile):
 
 
 if __name__ == "__main__":
-    csvfile = 'Response_Mentees.csv'
+    csvfile = 'Questionnaire_Mentees.csv'
     studentCData = preprocess(csvfile)
-    csvfile = 'Response_Mentors.csv'
+    csvfile = 'Questionnaire_Mentors.csv'
     mentorsCData = preprocess(csvfile)
     pprint(studentCData)
     print()
@@ -84,10 +87,11 @@ if __name__ == "__main__":
     mentee_n = len(studentCData)
     mentor_n = len(mentorsCData)
     k = math.ceil(mentee_n/mentor_n)
-    # print(k)
+    dummyDvalue= (k*mentor_n)-mentee_n
+    print(k)
     
-    Dmatrix = calcDmatrix(studentCData,mentorsCData,mentor_n, mentee_n)
+    Dmatrix = calcDmatrix(studentCData,mentorsCData,mentor_n, mentee_n,dummyDvalue)
     print(Dmatrix,'\n')
 
-    masterList = calcList(Dmatrix,k,mentor_n,mentee_n)
+    masterList = calcList(Dmatrix,k,mentor_n,mentee_n,dummyDvalue)
     pprint(masterList)
