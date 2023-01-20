@@ -1,6 +1,7 @@
 import csv
 import math
 from pprint import pprint
+import pandas as pd
 
 listDict = [    { 'Software development':0, 'Core':1, 'Finance':2, 'Consultancy':3, 'ML/AI':4 },    { 'Research groups':0, 'Technical societies':1, 'Cells':2, 'Fests':3, 'Cultural societies':4, 'Miscellaneous societies/clubs':5 },    { 'Research':0, 'Corporate':1, 'Start-up':2, 'MBA':3, 'UPSC':4 },{ 'Hindi':0, 'Malayalam':1, 'Bengali':2, 'Tamil':3, 'Telugu':4 }]
 
@@ -74,11 +75,11 @@ def preprocess(csvfile):
         return CData
 
 
-if __name__ == "__main__":
-    csvfile = 'Questionnaire_Mentees.csv'
-    studentCData = preprocess(csvfile)
-    csvfile = 'Questionnaire_Mentors.csv'
-    mentorsCData = preprocess(csvfile)
+def main(csvfile1, csvfile2):
+    # csvfile = 'Questionnaire_Mentees.csv'
+    studentCData = preprocess(csvfile1)
+    # csvfile = 'Questionnaire_Mentors.csv'
+    mentorsCData = preprocess(csvfile2)
     pprint(studentCData)
     print()
     pprint(mentorsCData)
@@ -95,3 +96,10 @@ if __name__ == "__main__":
 
     masterList = calcList(Dmatrix,k,mentor_n,mentee_n,dummyDvalue)
     pprint(masterList)
+
+    df = pd.DataFrame(masterList)
+    df.to_csv('mapping.csv', index=False, header=False)
+
+if __name__ == "__main__":
+    
+    main('Questionnaire_Mentees.csv','Questionnaire_Mentors.csv')
