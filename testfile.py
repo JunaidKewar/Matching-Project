@@ -9,7 +9,7 @@ listDict = [{'AE':0, 'AG':1, 'AR':2, 'BT':3, 'CH':4, 'CY':5, 'CE':6, 'CS':7, 'EE
 { 'Research':0, 'Corporate':1, 'Start-up':2, 'MBA':3, 'UPSC':4, 'Other':5 },
 { 'English':0, 'Hindi/ Urdu':1, 'Malayalam':2, 'Bengali':3, 'Tamil':4, 'Telugu':5 },
 { 'Chess':0, 'Bridge':1, 'Football':2, 'Cricket':3, 'Hockey':4, 'Basketball':5, 'Squash':6, 'Volleyball':7, 'Tennis':8, 'Table Tennis':9, 'Badminton':10, 'Athletics':11, 'Other':12 }, 
-{ 'Religious philosophy':0, 'Moral code':1, 'The miracles of the Quran':2, 'History':3, '':4 },
+{ 'Religious Philosophy (Dealing with Philosophical arguments for existence of God in light of the Quran, Understanding the wisdom behind our Moral stances. Refuting all the “isms”(athiesm, liberalism etc.) using application of classical Aqeedah.)':0, 'Moral Code (Dealing with islamic laws and their understanding in different scenarios)':1, 'The miracles of Quran (Exploring literary patterns and trends of the Quran which are impossible for a human mind or AI to generate. Exploring the scientific acuteness of the Quran)':2, 'History (Trying to relive the Good and Bad parts of Islamic History)':3, '':4 },
 { 'Public speaking':0, 'Writing':1, 'Design/Presentation':2,'Management/Leadership':3, 'Other':4},
 {'':0}]
 
