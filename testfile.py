@@ -3,7 +3,20 @@ import math
 from pprint import pprint
 import pandas as pd
 
-listDict = [    { 'Software development':0, 'Core':1, 'Finance':2, 'Consultancy':3, 'ML/AI':4 },    { 'Research groups':0, 'Technical societies':1, 'Cells':2, 'Fests':3, 'Cultural societies':4, 'Miscellaneous societies/clubs':5 },    { 'Research':0, 'Corporate':1, 'Start-up':2, 'MBA':3, 'UPSC':4 },{ 'Hindi':0, 'Malayalam':1, 'Bengali':2, 'Tamil':3, 'Telugu':4 }]
+listDict = [{'AE':0, 'AG':1, 'AR':2, 'BT':3, 'CH':4, 'CY':5, 'CE':6, 'CS':7, 'EE':8, 'EC':9, 'EX':10, 'GG':11, 'HS':12, 'IM':13, 'IE':14, 'ME':15, 'MT':16, 'MI':17, 'MA':18, 'MF':19, 'NA':20, 'PH':21},
+{ 'Software development':0, 'Core':1, 'Finance':2, 'Consultancy':3, 'ML/AI':4, 'Management':5 },
+{ 'Research groups':0, 'Technical societies':1, 'Cells':2, 'Fests':3, 'Cultural societies':4, 'Miscellaneous societies/clubs':5, 'None':6 },
+{ 'Research':0, 'Corporate':1, 'Start-up':2, 'MBA':3, 'UPSC':4, 'Other':5 },
+{ 'English':0, 'Hindi/ Urdu':1, 'Malayalam':2, 'Bengali':3, 'Tamil':4, 'Telugu':5 },
+{ 'Chess':0, 'Bridge':1, 'Football':2, 'Cricket':3, 'Hockey':4, 'Basketball':5, 'Squash':6, 'Volleyball':7, 'Tennis':8, 'Table Tennis':9, 'Badminton':10, 'Athletics':11, 'Other':12 }, 
+{ 'Religious philosophy':0, 'Moral code':1, 'The miracles of the Quran':2, 'History':3, '':4 },
+{ 'Public speaking':0, 'Writing':1, 'Design/Presentation':2,'Management/Leadership':3, 'Other':4},
+{'':0}]
+
+newDict = [{'No':0, 'Yes':1}]*46
+listDict.extend(newDict)
+
+# pprint(listDict)
 
 def calcList(Dmatrix,k,M,m,dum):
     finalList = [[] for _ in range(len(Dmatrix))]
@@ -18,6 +31,7 @@ def calcList(Dmatrix,k,M,m,dum):
             for y in range(M):
                 Dmatrix[y][minIndex] = 2
     return finalList
+
 
 
 def calcDmatrix(studentCData, mentorsCData, M, m,dummyDvalue):
@@ -50,6 +64,8 @@ def calcDvalue(mentor, student):
 def rowInfo(row, CData):
     data = []
     for i, options in enumerate(row):
+        if i==8:
+            continue
         index_list = [] 
         zero_array = [0] * len(listDict[i])
         if ';' not in options:
@@ -71,7 +87,10 @@ def preprocess(csvfile):
         CData = []
         next(csv_reader)
         for row in csv_reader:
-            rowInfo(row[1:], CData)
+            # pprint(row)
+            row = row[4:12] + row[13:]
+            rowInfo(row, CData)
+        # print(CData)
         return CData
 
 
@@ -88,7 +107,8 @@ def main(csvfile1, csvfile2):
     mentee_n = len(studentCData)
     mentor_n = len(mentorsCData)
     k = math.ceil(mentee_n/mentor_n)
-    dummyDvalue= (k*mentor_n)-mentee_n
+    # dummyDvalue is the number of dummy students added so that the value of k is integer
+    dummyDvalue = (k*mentor_n) - mentee_n
     print(k)
     
     Dmatrix = calcDmatrix(studentCData,mentorsCData,mentor_n, mentee_n,dummyDvalue)
@@ -102,4 +122,4 @@ def main(csvfile1, csvfile2):
 
 if __name__ == "__main__":
     
-    main('Questionnaire_Mentees.csv','Questionnaire_Mentors.csv')
+    main('Questionnaire_Mentees 2.0.csv','Questionnaire_Mentors 2.0.csv')
